@@ -12,6 +12,7 @@ void BoidSimulator::next(){
 
 void BoidSimulator::affiche(){
   window.clear();
+  this->box();
   this->afficheBoid();
   window.display();
 }
@@ -19,6 +20,7 @@ void BoidSimulator::affiche(){
 void BoidSimulator::afficheBoid(){
   sf::CircleShape triangle(8.f, 3);
   triangle.setPosition(boid.getPosition().getX(),boid.getPosition().getY());
+  window.draw(triangle);
 }
 
 void BoidSimulator::box(){

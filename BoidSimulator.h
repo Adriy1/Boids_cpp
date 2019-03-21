@@ -1,8 +1,8 @@
 #ifndef DEF_BOIDSIMULATOR
 #define DEF_BOIDSIMULATOR
 
-const int GLOBAL_CONST_WIDTH = 800;
-const int GLOBAL_CONST_HEIGHT = 600;
+const int GLOBAL_CONST_WIDTH = 960;
+const int GLOBAL_CONST_HEIGHT = 540;
 
 #include <iostream>
 #include "Boid.h"
