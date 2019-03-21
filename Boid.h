@@ -19,8 +19,9 @@ public:
   Vecteur getVitesse();
 
   void nextBoid();
-  void afficherPosition();
-  void afficherVitesse();
+  void checkPosition();
+  void afficherPosition()const;
+  void afficherVitesse()const;
 };
 
 

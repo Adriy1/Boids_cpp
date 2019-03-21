@@ -28,6 +28,10 @@ double Vecteur::getY() const{
     return this->y;
 }
 
+double Vecteur::getAngle()const{
+    return atan2(x, y)*180/3.1416;
+}
+
 double Vecteur::distance(const Vecteur &V) const{
     double dx = this->x - V.x;
     double dy = this->y - V.y;

@@ -2,6 +2,8 @@
 #define VECTEUR_H
 
 #include <iostream>
+#include <SFML/Graphics.hpp>
+
 using namespace std;
 
 class Vecteur
@@ -16,6 +18,7 @@ public:
   void setY(double y);
   double getX() const;
   double getY() const;
+  double getAngle() const;
 
   // Autres méthodes
   void move(double dx,double dy);

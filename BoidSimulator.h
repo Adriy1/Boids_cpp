@@ -19,6 +19,7 @@ public:
   virtual ~BoidSimulator ();
   void affiche();
   void afficheBoid();
+  void resize(int width,int height);
   void box();
   void next();
 };
