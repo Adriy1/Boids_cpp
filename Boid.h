@@ -1,6 +1,7 @@
 #ifndef DEF_BOID
 #define DEF_BOID
 
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Vecteur.h"
 
@@ -15,13 +16,15 @@ public:
   Boid (Vecteur position, Vecteur vitesse);
   virtual ~Boid ();
 
-  Vecteur getPosition();
-  Vecteur getVitesse();
+  Vecteur getPosition()const;
+  Vecteur getVitesse()const;
 
   void nextBoid();
   void checkPosition();
-  void afficherPosition()const;
   void afficherVitesse()const;
+  void afficherPosition()const;
+
+  sf::VertexArray afficheBoid() const;
 };
 
 

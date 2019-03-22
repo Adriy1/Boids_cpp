@@ -1,33 +1,25 @@
 #include <SFML/Graphics.hpp>
 #include "BoidSimulator.h"
+#include "Boids.h"
 
-BoidSimulator::BoidSimulator(sf::RenderWindow& wd,Boid b): window(wd),boid(b){
+BoidSimulator::BoidSimulator(sf::RenderWindow& wd,Boids& b): window(wd),boids(b){
 }
 
 BoidSimulator::~BoidSimulator(){}
 
 void BoidSimulator::next(){
-  boid.nextBoid();
+  boids.nextBoids();
 }
 
 void BoidSimulator::affiche(){
   window.clear();
   this->box();
-  this->afficheBoid();
+  this->drawBoids();
   window.display();
 }
 
-void BoidSimulator::afficheBoid(){
-  sf::CircleShape triangle(8.f, 3);
-  triangle.setPosition(boid.getPosition().getX(),boid.getPosition().getY());
-  double signe = (boid.getVitesse().getX() * boid.getVitesse().getY() >= 0);
-  if (signe) {
-    triangle.setRotation(boid.getVitesse().getAngle()-30);
-  }
-  else{
-    triangle.setRotation((boid.getVitesse().getAngle())-360+30);
-  }
-  window.draw(triangle);
+void BoidSimulator::drawBoids(){
+  window.draw(boids.afficheBoids());
 }
 
 void BoidSimulator::resize(int width, int height){
