@@ -22,11 +22,11 @@ Vecteur Boid::getVitesse()const{
 }
 
 void Boid::nextBoid(list<Boid>& listBoid) {
-  vitesse += this->flock(listBoid);
   vitesse += this->boundingPosition();
+  vitesse += this->flock(listBoid);
   this->limitVelocity();
   position += vitesse; // TODO check apres l'affectation bonne idee ?
-  this->checkPosition();
+  // this->checkPosition();
 }
 
 void Boid::checkPosition(){
@@ -65,7 +65,7 @@ Vecteur Boid::flock(list<Boid>& listBoid){
           v_aligmenent += it->vitesse; // alignement
           nb_vu++;
         }
-        if(dist <40.){ //OPTI possible ?
+        if(dist <20.){ //OPTI possible ?
           v_separation -= (it->position-position);
           v_separation *= v_separation.norm()/dist; //plus la norm est petite plus la force est grande
           nb_separation ++;
@@ -73,8 +73,8 @@ Vecteur Boid::flock(list<Boid>& listBoid){
       }
     }
     if(nb_vu > 0){
-      v_cohesion *= 1./nb_vu/1.;
-      v_aligmenent *= 1./nb_vu/1.;
+      v_cohesion *= 1./nb_vu/50.;
+      v_aligmenent *= 1./nb_vu/4.;
     }
     if(nb_separation>0){
       v_separation *= 1./nb_separation;
@@ -97,17 +97,24 @@ Vecteur Boid::separation(list<Boid>& listBoid){
 Vecteur Boid::boundingPosition(){
   double x_position = position.getX(); // performance
   double y_position = position.getY(); // performance
+  double vx = vitesse.getX();
+  double vy = vitesse.getY();
   Vecteur v = Vecteur();
-  // test si proche des 4 bords
-    if(x_position<= GLOBAL_CONST_WIDTH/20 || x_position >= GLOBAL_CONST_WIDTH * (1.-1./20) || y_position <= GLOBAL_CONST_HEIGHT/20 || y_position >= GLOBAL_CONST_HEIGHT * (1.-1./20)){
-      // double norme = vitesse.norm();
-      v -= Vecteur(x_position-GLOBAL_CONST_WIDTH/2,y_position-GLOBAL_CONST_HEIGHT/2); // force centrale
-      v *= vitesse.norm()/v.norm()/1.3;
-      // // v.afficher();
-      // vitesse.afficher();
-    }
+  // // test si proche des 4 bords
+  //   if(x_position<= GLOBAL_CONST_WIDTH/20 || x_position >= GLOBAL_CONST_WIDTH * (1.-1./20) || y_position <= GLOBAL_CONST_HEIGHT/20 || y_position >= GLOBAL_CONST_HEIGHT * (1.-1./20)){
+  //     // double norme = vitesse.norm();
+  //     v -= Vecteur(x_position-GLOBAL_CONST_WIDTH/2,y_position-GLOBAL_CONST_HEIGHT/2); // force centrale
+  //     v *= vitesse.norm()/v.norm()/1.3;
+  //     // // v.afficher();
+  //     // vitesse.afficher();
+  //   }
   // TODO norme ?
-
+  if ((x_position < -3*vx && vx <0) || x_position > GLOBAL_CONST_WIDTH-3*vx && vx>0){
+    v.setX(-2*vx);
+  }
+  if ((y_position < -3*vy && vy <0)||(y_position > GLOBAL_CONST_HEIGHT-3*vy && vy>0)){
+    v.setY(-2*vy);
+  }
   return v;
 
 }
