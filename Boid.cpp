@@ -22,8 +22,8 @@ Vecteur Boid::getVitesse()const{
 }
 
 void Boid::nextBoid(list<Boid>& listBoid) {
-  vitesse += this->boundingPosition();
   vitesse += this->flock(listBoid);
+  vitesse += this->boundingPosition();
   this->limitVelocity();
   position += vitesse; // TODO check apres l'affectation bonne idee ?
   // this->checkPosition();
@@ -74,10 +74,10 @@ Vecteur Boid::flock(list<Boid>& listBoid){
     }
     if(nb_vu > 0){
       v_cohesion *= 1./nb_vu/50.;
-      v_aligmenent *= 1./nb_vu/4.;
+      v_aligmenent *= 1./nb_vu/1.;
     }
     if(nb_separation>0){
-      v_separation *= 1./nb_separation;
+      v_separation *= 1./nb_separation/2.;
     }
     return v_cohesion + v_aligmenent + v_separation;
 }
@@ -109,11 +109,11 @@ Vecteur Boid::boundingPosition(){
   //     // vitesse.afficher();
   //   }
   // TODO norme ?
-  if ((x_position < -3*vx && vx <0) || x_position > GLOBAL_CONST_WIDTH-3*vx && vx>0){
-    v.setX(-2*vx);
+  if ((x_position < -10*vx && vx <0) || x_position > GLOBAL_CONST_WIDTH-10*vx && vx>0){
+    v.setX(-1.1*vx);
   }
-  if ((y_position < -3*vy && vy <0)||(y_position > GLOBAL_CONST_HEIGHT-3*vy && vy>0)){
-    v.setY(-2*vy);
+  if ((y_position < -10*vy && vy <0)||(y_position > GLOBAL_CONST_HEIGHT-10*vy && vy>0)){
+    v.setY(-1.1*vy);
   }
   return v;
 
