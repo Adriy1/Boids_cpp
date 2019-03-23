@@ -13,7 +13,7 @@ void BoidSimulator::next(){
 
 void BoidSimulator::affiche(){
   window.clear();
-  this->box();
+  // this->box();
   this->drawBoids();
   window.display();
 }

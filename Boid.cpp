@@ -21,7 +21,10 @@ Vecteur Boid::getVitesse()const{
   return vitesse;
 }
 
-void Boid::nextBoid() {
+void Boid::nextBoid(list<Boid>& listBoid) {
+  vitesse += this->flock(listBoid);
+  vitesse += this->boundingPosition();
+  this->limitVelocity();
   position += vitesse; // TODO check apres l'affectation bonne idee ?
   this->checkPosition();
 
@@ -46,6 +49,73 @@ void Boid::checkPosition(){
   }
 }
 
+Vecteur Boid::flock(list<Boid>& listBoid){
+    Vecteur v_cohesion = Vecteur();
+    Vecteur v_aligmenent = Vecteur();
+    Vecteur v_separation = Vecteur();
+    float nb_vu =0.,nb_separation=0.;
+    list<Boid>::iterator it;
+    for(it = listBoid.begin();it != listBoid.end();++it){
+      if (*this != *it){ //on check les autres boids uniquement
+        if(position.distance(it->position)<100. && vitesse.getAngle(it->position-position)<90.){ //TODO angle
+          v_cohesion += (it->position-position); //cohesion
+          v_aligmenent += it->vitesse; // alignement
+          nb_vu++;
+        }
+        if(position.distance(it->position)<20.){
+          v_separation -= it->position;
+          nb_separation ++;
+        }
+      }
+    }
+    if(nb_vu > 0){
+      v_cohesion *= 1./nb_vu/10.;
+      v_aligmenent *= 1./nb_vu/8.;
+    }
+    if(nb_separation>0){
+      v_separation *= 1./nb_separation;
+    }
+    return v_cohesion + v_aligmenent + v_separation;
+}
+
+Vecteur Boid::cohesion(list<Boid>& listBoid){
+
+}
+
+Vecteur Boid::alignement(list<Boid>& listBoid){
+
+}
+
+Vecteur Boid::separation(list<Boid>& listBoid){
+
+}
+
+Vecteur Boid::boundingPosition(){
+  double x_position = position.getX(); // performance
+  double y_position = position.getY(); // performance
+  Vecteur v = Vecteur();
+  // test si proche des 4 bords
+    if(x_position<= GLOBAL_CONST_WIDTH/20 || x_position >= GLOBAL_CONST_WIDTH * (1-1/20) || y_position <= GLOBAL_CONST_HEIGHT/20 || y_position >= GLOBAL_CONST_HEIGHT * (1-1/20)){
+      // double norme = vitesse.norm();
+      v -= Vecteur(x_position-GLOBAL_CONST_WIDTH/2,y_position-GLOBAL_CONST_HEIGHT/2); // force centrale
+      v *= vitesse.norm()/v.norm();
+      // std::cout << "vitesse boundingPosition " << v.norm() << '\n';
+      // std::cout << "vitesse  " << vitesse.norm() << '\n';
+    }
+  // TODO norme ?
+
+  return v;
+
+}
+
+void Boid::limitVelocity(){
+  double vlim =5.f,n = vitesse.norm();
+  if (n>vlim){
+    vitesse *= vlim/n;
+    // std::cout << "vitesse limitVelocity " << vitesse.norm() << '\n';
+  }
+}
+
 void Boid::afficherPosition()const{
   position.afficher();
 }
@@ -58,7 +128,7 @@ sf::VertexArray Boid::afficheBoid()const{ //creer la figure d'un seul boid
   sf::VertexArray triangle(sf::Triangles, 3);
   double x = position.getX(); //performance
   double y = position.getY();
-  double a = vitesse.getAngle()/180*3.1416;
+  double a = vitesse.getOrientation()/180*3.1416;
   double px = cos(a);
   double py = sin(a); // TODO opti perf
   triangle[0].position = sf::Vector2f(x+py*12.f,y+px*12.f);
@@ -69,5 +139,8 @@ sf::VertexArray Boid::afficheBoid()const{ //creer la figure d'un seul boid
   triangle[2].color = sf::Color::Red;
   return triangle;
 }
+
+bool operator==(const Boid& lhs, const Boid& rhs){ if(lhs.getPosition() == rhs.getPosition() && lhs.getVitesse() == rhs.getVitesse()) return true; }
+bool operator!=(const Boid& lhs, const Boid& rhs){ return !(lhs == rhs); }
 
 Boid::~Boid(){}

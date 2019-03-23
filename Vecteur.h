@@ -18,8 +18,10 @@ public:
   void setY(double y);
   double getX() const;
   double getY() const;
-  double getAngle() const;
-
+  double getOrientation() const;
+  double norm() const;
+  double getAngle(const Vecteur&) const;
+  double scalaire(const Vecteur&) const;
   // Autres méthodes
   void move(double dx,double dy);
   double distance(const Vecteur &V) const;
@@ -30,9 +32,21 @@ public:
 
   //operateurs
   Vecteur &operator+=(const Vecteur&);
+  Vecteur &operator-=(const Vecteur&);
+  Vecteur &operator*=(const double&);
+
 
 private:
   double x,y;
 };
+
+Vecteur operator+(Vecteur,const Vecteur&);
+
+Vecteur operator-(Vecteur,const Vecteur&);
+
+bool operator==(const Vecteur&, const Vecteur&);
+
+bool operator!=(const Vecteur&, const Vecteur&);
+
 
 #endif

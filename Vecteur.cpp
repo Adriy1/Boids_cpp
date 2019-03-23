@@ -28,8 +28,20 @@ double Vecteur::getY() const{
     return this->y;
 }
 
-double Vecteur::getAngle()const{
+double Vecteur::getOrientation()const{
     return atan2(x, y)*180/3.1416;
+}
+
+double Vecteur::scalaire(const Vecteur&V)const{
+  return x*V.x+y*V.y;
+}
+
+double Vecteur::getAngle(const Vecteur&V)const{
+  return 180/3.1416*acos(this->scalaire(V)/(this->norm()*V.norm()));
+}
+
+double Vecteur::norm()const{
+    return sqrt(x*x+y*y);
 }
 
 double Vecteur::distance(const Vecteur &V) const{
@@ -60,3 +72,28 @@ Vecteur &Vecteur::operator+=(const Vecteur &v){
     y += v.y;
     return *this;
 }
+
+Vecteur &Vecteur::operator-=(const Vecteur &v){
+    x -= v.x;
+    y -= v.y;
+    return *this;
+}
+
+Vecteur operator+(Vecteur lhs,const Vecteur& rhs){
+  lhs += rhs;
+  return lhs;
+}
+
+Vecteur operator-(Vecteur lhs,const Vecteur& rhs){
+  lhs -= rhs;
+  return lhs;
+}
+
+Vecteur &Vecteur::operator*=(const double &k){
+    x *= k;
+    y *= k;
+    return *this;
+}
+
+bool operator==(const Vecteur& lhs, const Vecteur& rhs){ if(lhs.getX() == rhs.getX() && lhs.getY() == rhs.getY()) return true; }
+bool operator!=(const Vecteur& lhs, const Vecteur& rhs){ return !(lhs == rhs); }
