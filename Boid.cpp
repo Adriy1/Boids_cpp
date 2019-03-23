@@ -30,21 +30,23 @@ void Boid::nextBoid(list<Boid>& listBoid) {
 }
 
 void Boid::checkPosition(){
-  if(position.getX() >= GLOBAL_CONST_WIDTH) {
-    position.setX(2*GLOBAL_CONST_WIDTH-position.getX());
-    vitesse.setX(-vitesse.getX());
+  double x_position = position.getX(); //PERF
+  double y_position = position.getY();
+  if(x_position >= GLOBAL_CONST_WIDTH) {
+    position.setX(2*GLOBAL_CONST_WIDTH-x_position);
+    // vitesse.setX(-vitesse.getX());
   }
-  if(position.getX() < 0) {
-    position.setX(-position.getX());
-    vitesse.setX(-vitesse.getX());
+  if(x_position < 0) {
+    position.setX(-x_position);
+    // vitesse.setX(-vitesse.getX());
   }
-  if(position.getY() >= GLOBAL_CONST_HEIGHT) {
-    position.setY(2*GLOBAL_CONST_HEIGHT-position.getY());
-    vitesse.setY(-vitesse.getY());
+  if(y_position >= GLOBAL_CONST_HEIGHT) {
+    position.setY(2*GLOBAL_CONST_HEIGHT-y_position);
+    // vitesse.setY(-vitesse.getY());
   }
-  if(position.getY() < 0) {
-    position.setY(-position.getY());
-    vitesse.setY(-vitesse.getY());
+  if(y_position < 0) {
+    position.setY(-y_position);
+    // vitesse.setY(-vitesse.getY());
   }
 }
 
@@ -58,12 +60,12 @@ Vecteur Boid::flock(list<Boid>& listBoid){
     for(it = listBoid.begin();it != listBoid.end();++it){
       if (*this != *it){ //on check les autres boids uniquement
         dist = position.distance(it->position);
-        if(dist<200. && vitesse.getAngle(it->position-position)<90.){
+        if(dist<300. && vitesse.getAngle(it->position-position)<90.){
           v_cohesion += (it->position-position); //cohesion
           v_aligmenent += it->vitesse; // alignement
           nb_vu++;
         }
-        if(dist <30.){ //OPTI possible ?
+        if(dist <40.){ //OPTI possible ?
           v_separation -= (it->position-position);
           v_separation *= v_separation.norm()/dist; //plus la norm est petite plus la force est grande
           nb_separation ++;
@@ -71,8 +73,8 @@ Vecteur Boid::flock(list<Boid>& listBoid){
       }
     }
     if(nb_vu > 0){
-      v_cohesion *= 1./nb_vu/1.7;
-      v_aligmenent *= 1./nb_vu/1.7;
+      v_cohesion *= 1./nb_vu/1.;
+      v_aligmenent *= 1./nb_vu/1.;
     }
     if(nb_separation>0){
       v_separation *= 1./nb_separation;
@@ -97,10 +99,10 @@ Vecteur Boid::boundingPosition(){
   double y_position = position.getY(); // performance
   Vecteur v = Vecteur();
   // test si proche des 4 bords
-    if(x_position<= GLOBAL_CONST_WIDTH/10 || x_position >= GLOBAL_CONST_WIDTH * (1.-1./10.) || y_position <= GLOBAL_CONST_HEIGHT/10 || y_position >= GLOBAL_CONST_HEIGHT * (1.-1./10.)){
+    if(x_position<= GLOBAL_CONST_WIDTH/20 || x_position >= GLOBAL_CONST_WIDTH * (1.-1./20) || y_position <= GLOBAL_CONST_HEIGHT/20 || y_position >= GLOBAL_CONST_HEIGHT * (1.-1./20)){
       // double norme = vitesse.norm();
       v -= Vecteur(x_position-GLOBAL_CONST_WIDTH/2,y_position-GLOBAL_CONST_HEIGHT/2); // force centrale
-      v *= vitesse.norm()/v.norm()/2;
+      v *= vitesse.norm()/v.norm()/1.3;
       // // v.afficher();
       // vitesse.afficher();
     }
