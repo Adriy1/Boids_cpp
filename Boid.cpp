@@ -22,11 +22,11 @@ Vecteur Boid::getVitesse()const{
 }
 
 void Boid::nextBoid(list<Boid>& listBoid) {
-  vitesse += this->flock(listBoid);
   vitesse += this->boundingPosition();
+  vitesse += this->flock(listBoid);
   this->limitVelocity();
   position += vitesse; // TODO check apres l'affectation bonne idee ?
-  // this->checkPosition();
+  this->checkPosition();
 }
 
 void Boid::checkPosition(){
@@ -59,8 +59,9 @@ Vecteur Boid::flock(list<Boid>& listBoid){
     list<Boid>::iterator it;
     for(it = listBoid.begin();it != listBoid.end();++it){
       if (*this != *it){ //on check les autres boids uniquement
+        // nb++; DEBUG
         dist = position.distance(it->position);
-        if(dist<300. && vitesse.getAngle(it->position-position)<90.){
+        if(dist<200. && vitesse.getAngle(it->position-position)<90.){
           v_cohesion += (it->position-position); //cohesion
           v_aligmenent += it->vitesse; // alignement
           nb_vu++;
@@ -72,6 +73,7 @@ Vecteur Boid::flock(list<Boid>& listBoid){
         }
       }
     }
+    // std::cout << nb << '\n'; DEBUG
     if(nb_vu > 0){
       v_cohesion *= 1./nb_vu/50.;
       v_aligmenent *= 1./nb_vu/1.;
