@@ -27,7 +27,6 @@ void Boid::nextBoid(list<Boid>& listBoid) {
   this->limitVelocity();
   position += vitesse; // TODO check apres l'affectation bonne idee ?
   this->checkPosition();
-
 }
 
 void Boid::checkPosition(){
@@ -53,24 +52,27 @@ Vecteur Boid::flock(list<Boid>& listBoid){
     Vecteur v_cohesion = Vecteur();
     Vecteur v_aligmenent = Vecteur();
     Vecteur v_separation = Vecteur();
-    float nb_vu =0.,nb_separation=0.;
+    int nb_vu =0.,nb_separation=0.;
+    double dist;
     list<Boid>::iterator it;
     for(it = listBoid.begin();it != listBoid.end();++it){
       if (*this != *it){ //on check les autres boids uniquement
-        if(position.distance(it->position)<100. && vitesse.getAngle(it->position-position)<90.){ //TODO angle
+        dist = position.distance(it->position)
+        if(dist<200. && vitesse.getAngle(it->position-position)<90.){
           v_cohesion += (it->position-position); //cohesion
           v_aligmenent += it->vitesse; // alignement
           nb_vu++;
         }
-        if(position.distance(it->position)<20.){
-          v_separation -= it->position;
+        if(dist <30.){ //OPTI possible ?
+          v_separation -= (it->position-position);
+          v_separation *= v_separation.norm()/dist; //plus la norm est petite plus la force est grande
           nb_separation ++;
         }
       }
     }
     if(nb_vu > 0){
-      v_cohesion *= 1./nb_vu/10.;
-      v_aligmenent *= 1./nb_vu/8.;
+      v_cohesion *= 1./nb_vu/1.7;
+      v_aligmenent *= 1./nb_vu/1.7;
     }
     if(nb_separation>0){
       v_separation *= 1./nb_separation;
@@ -95,12 +97,12 @@ Vecteur Boid::boundingPosition(){
   double y_position = position.getY(); // performance
   Vecteur v = Vecteur();
   // test si proche des 4 bords
-    if(x_position<= GLOBAL_CONST_WIDTH/20 || x_position >= GLOBAL_CONST_WIDTH * (1-1/20) || y_position <= GLOBAL_CONST_HEIGHT/20 || y_position >= GLOBAL_CONST_HEIGHT * (1-1/20)){
+    if(x_position<= GLOBAL_CONST_WIDTH/10 || x_position >= GLOBAL_CONST_WIDTH * (1.-1./10.) || y_position <= GLOBAL_CONST_HEIGHT/10 || y_position >= GLOBAL_CONST_HEIGHT * (1.-1./10.)){
       // double norme = vitesse.norm();
       v -= Vecteur(x_position-GLOBAL_CONST_WIDTH/2,y_position-GLOBAL_CONST_HEIGHT/2); // force centrale
-      v *= vitesse.norm()/v.norm();
-      // std::cout << "vitesse boundingPosition " << v.norm() << '\n';
-      // std::cout << "vitesse  " << vitesse.norm() << '\n';
+      v *= vitesse.norm()/v.norm()/2;
+      // // v.afficher();
+      // vitesse.afficher();
     }
   // TODO norme ?
 

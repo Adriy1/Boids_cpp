@@ -8,7 +8,7 @@
 Boids::Boids(int nbBoid){
   srand((unsigned)time(0));
   for(int i=0;i<nbBoid;i++){
-    // listeBoid.push_back(Boid(Vecteur(rand()%GLOBAL_CONST_WIDTH,rand()%GLOBAL_CONST_HEIGHT),Vecteur(1,0)));
+    // listeBoid.push_back(Boid(Vecteur(rand()%GLOBAL_CONST_WIDTH,rand()%GLOBAL_CONST_HEIGHT),Vecteur(1,0))); //DEBUG
     listeBoid.push_back(Boid(Vecteur(rand()%GLOBAL_CONST_WIDTH,rand()%GLOBAL_CONST_HEIGHT),Vecteur(rand()%10-5,rand()%10-5)));
   }
 }
