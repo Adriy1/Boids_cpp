@@ -57,7 +57,7 @@ Vecteur Boid::flock(list<Boid>& listBoid){
     list<Boid>::iterator it;
     for(it = listBoid.begin();it != listBoid.end();++it){
       if (*this != *it){ //on check les autres boids uniquement
-        dist = position.distance(it->position)
+        dist = position.distance(it->position);
         if(dist<200. && vitesse.getAngle(it->position-position)<90.){
           v_cohesion += (it->position-position); //cohesion
           v_aligmenent += it->vitesse; // alignement
