@@ -5,7 +5,7 @@ test: Boid.o Vecteur.o test.o Boids.o BoidSimulator.o
 	g++ -std=c++11 -g -o testPerf $^ -lsfml-graphics -lsfml-window -lsfml-system -lm
 
 %.o: %.cpp
-	g++ -g -c $^
+	g++ -g -std=c++11 -c $^
 
 clean:
 	rm -f *.o
