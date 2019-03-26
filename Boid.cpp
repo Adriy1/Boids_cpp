@@ -27,7 +27,6 @@ void Boid::nextBoid(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]) {
   this->limitVelocity();
   position += vitesse; // TODO check apres l'affectation bonne idee ?
   this->checkPosition();
-  // position.afficher();
 }
 
 void Boid::checkPosition(){
@@ -77,9 +76,6 @@ Vecteur Boid::flock(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]){
                 Vecteur v = (it->position-position);
                 v *= (20.-dist);
                 v_separation -= v;
-                // v_separation.afficher();
-                // (it->position-position).afficher();
-                // v_separation *= /dist; //plus la norm est petite plus la force est grande
                 nb_separation ++;
               }
             }
