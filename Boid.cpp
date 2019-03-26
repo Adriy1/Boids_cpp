@@ -31,17 +31,22 @@ void Boid::nextBoid(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]) {
   // vitesse.afficher();
   vitesse += this->flock(gridBoid);
   this->limitVelocity();
-  std::cout << "---------- X:" << int(floor(position.getX()/SIZE_LEAF)) << '\n';
-  std::cout << "---------- Y: "<< position.getY()/SIZE_LEAF << '\n';
   //supprime l'ancien place dans la grille
   position += vitesse; // TODO check apres l'affectation bonne idee ?
   this->checkPosition();
-  std::cout << int(floor(position.getX()))/SIZE_LEAF << '\n';
+  int new_x =int(position.getX())/SIZE_LEAF;
+  int new_y =int(position.getY())/SIZE_LEAF;
+  std::cout << "NEW X: "<<int(floor(position.getX()))/SIZE_LEAF << '\n';
+  std::cout << "NEW Y: "<<int(floor(position.getY()))/SIZE_LEAF << '\n';
   // std::cout << "/* message */" << '\n';
-  std::cout << position.getX()/SIZE_LEAF << '\n';
-  std::cout << int(position.getX()/SIZE_LEAF) << '\n';
+  // std::cout << position.getX()/SIZE_LEAF << '\n';
+  // std::cout << int(position.getX()/SIZE_LEAF) << '\n';
   // gridBoid[old_indice_x][old_indice_y].remove(*this);
-  // gridBoid[int(floor(position.getX()/SIZE_LEAF))][int(floor(position.getY()/SIZE_LEAF))].push_back(*this));
+  std::cout << "remove old indice: " <<old_indice_x << "et "<< old_indice_y << '\n';
+  if(old_indice_x != int(position.getX()/SIZE_LEAF) || old_indice_y != int(position.getY()/SIZE_LEAF)){
+    std::cout << "ALLLLLLLLLLLLOOOOOOOOO" << '\n';
+  }
+  // gridBoid[new_x][new_y].push_back(Boid(position,vitesse));
 }
 
 void Boid::checkPosition(){
@@ -86,8 +91,8 @@ Vecteur Boid::flock(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]){
           for(it = gridBoid[x_grille+i][y_grille+j].begin();it != gridBoid[x_grille+i][y_grille+j].end();++it){
             if (*this != *it){ //on check les autres boids uniquement
               dist = position.distance(it->position);
-              std::cout << "dist " <<dist<< '\n';
-              std::cout << "get getAngle " << vitesse.getAngle(it->position-position)<< '\n';
+              // std::cout << "dist " <<dist<< '\n';
+              // std::cout << "get getAngle " << vitesse.getAngle(it->position-position)<< '\n';
               if(dist<RANGE_BOID && vitesse.getAngle(it->position-position)<90.){
                 nb++;// DEBUG
                 v_cohesion += (it->position-position); //cohesion
@@ -111,7 +116,7 @@ Vecteur Boid::flock(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]){
     // v_cohesion.afficher();
     // v_separation.afficher();
     // v_aligmenent.afficher();
-    std::cout << "VOISIN VU "<< nb << '\n'; //DEBUG
+    // std::cout << "VOISIN VU "<< nb << '\n'; //DEBUG
     if(nb_vu > 0){
       v_cohesion *= 1./nb_vu/50.;
       v_aligmenent *= 1./nb_vu/1.;

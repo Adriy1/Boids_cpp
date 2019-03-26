@@ -21,9 +21,9 @@ public:
   Vecteur getPosition()const;
   Vecteur getVitesse()const;
 
-  void nextBoid(list<Boid>(&)[17][9]);
+  void nextBoid(list<Boid>(&)[18][10]);
   void checkPosition();
-  Vecteur flock(list<Boid>(&)[17][9]);
+  Vecteur flock(list<Boid>(&)[18][10]);
   Vecteur boundingPosition();
   Vecteur cohesion(list<Boid>&);
   Vecteur alignement(list<Boid>&);

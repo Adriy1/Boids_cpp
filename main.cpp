@@ -13,9 +13,9 @@ int main(int argc, char const *argv[]) {
 
   sf::RenderWindow windowSimu(sf::VideoMode(GLOBAL_CONST_WIDTH, GLOBAL_CONST_HEIGHT), "SFML Boids!");
   windowSimu.setVerticalSyncEnabled(true); // un appel suffit, après la création de la fenêtre
-  windowSimu.setFramerateLimit(3); // call it once, after creating the window
+  // windowSimu.setFramerateLimit(30); // call it once, after creating the window
   // Boid b = Boid(Vecteur(0,0),Vecteur(1,1)); // Test uniquement -> a placer dans Boid Simulator //DEBUG
-  Boids listBoid = Boids(1);
+  Boids listBoid = Boids(300);
   BoidSimulator gui = BoidSimulator(windowSimu,listBoid);
 
   while (windowSimu.isOpen()){
