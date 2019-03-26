@@ -44,6 +44,10 @@ double Vecteur::norm()const{
     return sqrt(x*x+y*y);
 }
 
+double Vecteur::normCompare()const{
+    return (x*x+y*y);
+}
+
 double Vecteur::distance(const Vecteur &V) const{
     double dx = this->x - V.x;
     double dy = this->y - V.y;

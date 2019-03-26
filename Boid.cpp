@@ -27,6 +27,7 @@ void Boid::nextBoid(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]) {
   this->limitVelocity();
   position += vitesse; // TODO check apres l'affectation bonne idee ?
   this->checkPosition();
+  // position.afficher();
 }
 
 void Boid::checkPosition(){
@@ -72,9 +73,13 @@ Vecteur Boid::flock(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]){
                 v_aligmenent += it->vitesse; // alignement
                 nb_vu++;
               }
-              if(dist <20.){ //OPTI possible
-                v_separation -= (it->position-position);
-                v_separation *= v_separation.norm()/dist; //plus la norm est petite plus la force est grande
+              if(dist <20.){// && (it->position != position)){ //OPTI possible
+                Vecteur v = (it->position-position);
+                v *= (20.-dist);
+                v_separation -= v;
+                // v_separation.afficher();
+                // (it->position-position).afficher();
+                // v_separation *= /dist; //plus la norm est petite plus la force est grande
                 nb_separation ++;
               }
             }
@@ -88,7 +93,7 @@ Vecteur Boid::flock(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]){
       v_aligmenent *= 1./nb_vu/1.;
     }
     if(nb_separation>0){
-      v_separation *= 1./nb_separation/2.;
+      v_separation *= 1./nb_separation/6.;
     }
     return v_cohesion + v_aligmenent + v_separation;
 }
