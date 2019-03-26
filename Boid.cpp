@@ -22,12 +22,9 @@ Vecteur Boid::getVitesse()const{
 }
 
 void Boid::nextBoid(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]) {
-  int old_indice_x = int(floor(position.getX()/SIZE_LEAF));
-  int old_indice_y = int(floor(position.getY()/SIZE_LEAF));
   vitesse += this->boundingPosition();
   vitesse += this->flock(gridBoid);
   this->limitVelocity();
-  //supprime l'ancien place dans la grille
   position += vitesse; // TODO check apres l'affectation bonne idee ?
   this->checkPosition();
 }

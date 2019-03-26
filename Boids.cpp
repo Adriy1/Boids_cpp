@@ -23,23 +23,20 @@ Boids::~Boids(){}
 // }
 
 void Boids::nextBoids(){
-  // list<Boid>::iterator it;
-  // for(it = listeBoid.begin();it != listeBoid.end(); ++it){
-  //     it->nextBoid(listeBoid);
-  // }
+
   list<Boid>::iterator it;
   for (int i=0; i<NB_ROWS;i++){
     for(int j=0; j<NB_COLS;j++){
       for(it = grid[i][j].begin();it != grid[i][j].end(); ++it){
-          // std::cout << "\n--------- \n CASE I: "<< i << " CASE J: "<< j << '\n';
-          it->nextBoid(grid);
-          int new_X = int(it->getPosition().getX()/SIZE_LEAF);
-          int new_Y = int(it->getPosition().getY()/SIZE_LEAF);
-          if (i != new_X || j != new_Y){
-            Boid b = Boid(it->getPosition(),it->getVitesse());
-            it = grid[i][j].erase(it);//(*it);
-            grid[new_X][new_Y].push_back(b);
-          }
+        // std::cout << "\n--------- \n CASE I: "<< i << " CASE J: "<< j << '\n';
+        it->nextBoid(grid);
+        int new_X = int(it->getPosition().getX()/SIZE_LEAF);
+        int new_Y = int(it->getPosition().getY()/SIZE_LEAF);
+        if (i != new_X || j != new_Y){
+          Boid b = Boid(it->getPosition(),it->getVitesse());
+          it = grid[i][j].erase(it);//(*it);
+          grid[new_X][new_Y].push_back(b);
+        }
       }
     }
   }
