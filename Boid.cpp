@@ -22,31 +22,14 @@ Vecteur Boid::getVitesse()const{
 }
 
 void Boid::nextBoid(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]) {
-  std::cout << "\n NEW BOID" << '\n';
-  std::cout << "-- X:" << int(floor(position.getX()/SIZE_LEAF)) << '\n';
-  std::cout << "-- Y: "<< position.getY()/SIZE_LEAF << '\n';
   int old_indice_x = int(floor(position.getX()/SIZE_LEAF));
   int old_indice_y = int(floor(position.getY()/SIZE_LEAF));
   vitesse += this->boundingPosition();
-  // vitesse.afficher();
   vitesse += this->flock(gridBoid);
   this->limitVelocity();
   //supprime l'ancien place dans la grille
   position += vitesse; // TODO check apres l'affectation bonne idee ?
   this->checkPosition();
-  int new_x =int(position.getX())/SIZE_LEAF;
-  int new_y =int(position.getY())/SIZE_LEAF;
-  std::cout << "NEW X: "<<int(floor(position.getX()))/SIZE_LEAF << '\n';
-  std::cout << "NEW Y: "<<int(floor(position.getY()))/SIZE_LEAF << '\n';
-  // std::cout << "/* message */" << '\n';
-  // std::cout << position.getX()/SIZE_LEAF << '\n';
-  // std::cout << int(position.getX()/SIZE_LEAF) << '\n';
-  // gridBoid[old_indice_x][old_indice_y].remove(*this);
-  std::cout << "remove old indice: " <<old_indice_x << "et "<< old_indice_y << '\n';
-  if(old_indice_x != int(position.getX()/SIZE_LEAF) || old_indice_y != int(position.getY()/SIZE_LEAF)){
-    std::cout << "ALLLLLLLLLLLLOOOOOOOOO" << '\n';
-  }
-  // gridBoid[new_x][new_y].push_back(Boid(position,vitesse));
 }
 
 void Boid::checkPosition(){
@@ -75,47 +58,33 @@ Vecteur Boid::flock(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]){
     Vecteur v_aligmenent = Vecteur();
     Vecteur v_separation = Vecteur();
     int nb_vu =0.,nb_separation=0.;
-    int nb=0; //DEBUG
-    // int conway[9][2]={{0,0},{0,-1},{0,1},{1,0},{1,-1},{1,1},{-1,0},{-1,-1},{-1,1}};
+    // int nb=0; //DEBUG
     double dist;
     list<Boid>::iterator it;
     int x_grille = position.getX()/(SIZE_LEAF);
     int y_grille = position.getY()/(SIZE_LEAF);
-    std::cout << "x: "<<x_grille << '\n';
-    std::cout << "Y: "<<y_grille << '\n';
     for(int i=-1;i<2;i++){
       for(int j=-1;j<2;j++){
-        // std::cout << "i: " << i << " et J: "<<j << '\n';
         if(x_grille+i>=0 && y_grille+j>=0 && x_grille+i<NB_ROWS && y_grille+j<NB_COLS){
-          // std::cout << "GOOD" << '\n';
           for(it = gridBoid[x_grille+i][y_grille+j].begin();it != gridBoid[x_grille+i][y_grille+j].end();++it){
             if (*this != *it){ //on check les autres boids uniquement
               dist = position.distance(it->position);
-              // std::cout << "dist " <<dist<< '\n';
-              // std::cout << "get getAngle " << vitesse.getAngle(it->position-position)<< '\n';
               if(dist<RANGE_BOID && vitesse.getAngle(it->position-position)<90.){
-                nb++;// DEBUG
+                // nb++;// DEBUG
                 v_cohesion += (it->position-position); //cohesion
                 v_aligmenent += it->vitesse; // alignement
                 nb_vu++;
               }
               if(dist <20.){ //OPTI possible
-                // v_separation.afficher();
                 v_separation -= (it->position-position);
-                // v_separation.afficher();
                 v_separation *= v_separation.norm()/dist; //plus la norm est petite plus la force est grande
-                // v_separation.afficher();
                 nb_separation ++;
-                // std::cout << "NBSPEA" << nb_separation<< '\n';
               }
             }
           }
         }
       }
     }
-    // v_cohesion.afficher();
-    // v_separation.afficher();
-    // v_aligmenent.afficher();
     // std::cout << "VOISIN VU "<< nb << '\n'; //DEBUG
     if(nb_vu > 0){
       v_cohesion *= 1./nb_vu/50.;
@@ -124,8 +93,6 @@ Vecteur Boid::flock(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]){
     if(nb_separation>0){
       v_separation *= 1./nb_separation/2.;
     }
-    // std::cout << "AAAAAAAAAAAAAA" << '\n';
-    // (v_cohesion + v_aligmenent + v_separation).afficher();
     return v_cohesion + v_aligmenent + v_separation;
 }
 

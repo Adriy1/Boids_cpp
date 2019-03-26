@@ -13,7 +13,7 @@ int main(int argc, char const *argv[]) {
   sf::RenderWindow windowSimu(sf::VideoMode(GLOBAL_CONST_WIDTH, GLOBAL_CONST_HEIGHT), "SFML Boids!");
   // windowSimu.setVerticalSyncEnabled(true); // un appel suffit, après la création de la fenêtre
   // Boid b = Boid(Vecteur(0,0),Vecteur(1,1)); // Test uniquement -> a placer dans Boid Simulator
-  Boids listBoid = Boids(300);
+  Boids listBoid = Boids(1000);
   BoidSimulator gui = BoidSimulator(windowSimu,listBoid);
   int i =0 ;
   while (windowSimu.isOpen() && i<100){

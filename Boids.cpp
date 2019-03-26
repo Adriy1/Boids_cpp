@@ -12,8 +12,6 @@ Boids::Boids(int nbBoid){
     // listeBoid.push_back(Boid(Vecteur(rand()%GLOBAL_CONST_WIDTH,rand()%GLOBAL_CONST_HEIGHT),Vecteur(rand()%10-5,rand()%10-5))); OLD VERSION
     int x_pos = rand()%GLOBAL_CONST_WIDTH;
     int y_pos = rand()%GLOBAL_CONST_HEIGHT;
-    std::cout <<  x_pos/SIZE_LEAF<<'\n';
-    std::cout << x_pos/110 << " || "<<y_pos/110 <<'\n';
     grid[(x_pos/SIZE_LEAF)][y_pos/SIZE_LEAF].push_back(Boid(Vecteur(x_pos,y_pos),Vecteur(rand()%10-5,rand()%10-5)));
   }
 }
@@ -33,7 +31,7 @@ void Boids::nextBoids(){
   for (int i=0; i<NB_ROWS;i++){
     for(int j=0; j<NB_COLS;j++){
       for(it = grid[i][j].begin();it != grid[i][j].end(); ++it){
-          std::cout << "\n--------- \n CASE I: "<< i << " CASE J: "<< j << '\n';
+          // std::cout << "\n--------- \n CASE I: "<< i << " CASE J: "<< j << '\n';
           it->nextBoid(grid);
           int new_X = int(it->getPosition().getX()/SIZE_LEAF);
           int new_Y = int(it->getPosition().getY()/SIZE_LEAF);
