@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Vecteur.h"
 #include <list>
+// #include "BoidSimulator.h"
 
 class Boid {
 protected:
@@ -20,9 +21,9 @@ public:
   Vecteur getPosition()const;
   Vecteur getVitesse()const;
 
-  void nextBoid(list<Boid>&);
+  void nextBoid(list<Boid>(&)[18][10]);
   void checkPosition();
-  Vecteur flock(list<Boid>& listBoid);
+  Vecteur flock(list<Boid>(&)[18][10]);
   Vecteur boundingPosition();
   Vecteur cohesion(list<Boid>&);
   Vecteur alignement(list<Boid>&);

@@ -20,6 +20,7 @@ public:
   double getY() const;
   double getOrientation() const;
   double norm() const;
+  double normCompare() const;
   double getAngle(const Vecteur&) const;
   double scalaire(const Vecteur&) const;
   // Autres méthodes
