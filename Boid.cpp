@@ -60,6 +60,7 @@ Vecteur Boid::flock(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]){
     list<Boid>::iterator it;
     int x_grille = position.getX()/(SIZE_LEAF);
     int y_grille = position.getY()/(SIZE_LEAF);
+    #pragma omp parallel for private(it,dist)//,v_cohesion,v_separation,v_aligmenent,nb_vu,nb_separation,dist)
     for(int i=-1;i<2;i++){
       for(int j=-1;j<2;j++){
         if(x_grille+i>=0 && y_grille+j>=0 && x_grille+i<NB_ROWS && y_grille+j<NB_COLS){
