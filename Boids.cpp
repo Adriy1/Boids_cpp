@@ -52,6 +52,7 @@ void Boids::addGrid(int x,int y, Boid b){
 sf::VertexArray Boids::afficheBoids(){
   sf::VertexArray listTriangleBoids = sf::VertexArray(sf::Triangles);
   list<Boid>::iterator it;
+  // #pragma omp parallel for private(it)
   for (int i=0; i<NB_ROWS;i++){
     for(int j=0; j<NB_COLS;j++){
       for(it = grid[i][j].begin();it != grid[i][j].end(); ++it){

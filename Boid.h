@@ -6,6 +6,12 @@
 #include "Vecteur.h"
 #include <list>
 // #include "BoidSimulator.h"
+const int GLOBAL_CONST_WIDTH = 1900; // NE DEVRAIT PAS ETRE LA CAR LIE A LA FENETRE DE SIMU OU A LA GRILLE BOIDS
+const int GLOBAL_CONST_HEIGHT = 1000; // MAIS PERMET D'ACTUALISER FACILEMENT LA RANGE DES BOIDS
+const int RANGE_BOID = 75; // TOUT EN GARDANT LA PERF DES TAB STATIQUES
+const int SIZE_LEAF = RANGE_BOID*(1.+1./10.);
+const int NB_ROWS = (GLOBAL_CONST_WIDTH/SIZE_LEAF)+1;
+const int NB_COLS = (GLOBAL_CONST_HEIGHT/SIZE_LEAF)+1;
 
 class Boid {
 protected:
@@ -21,9 +27,10 @@ public:
   Vecteur getPosition()const;
   Vecteur getVitesse()const;
 
-  void nextBoid(list<Boid>(&)[18][10]);
+  void nextBoid(list<Boid>(&)[NB_ROWS][NB_COLS]);
   void checkPosition();
-  Vecteur flock(list<Boid>(&)[18][10]);
+  Vecteur flock(list<Boid>(&)[NB_ROWS][NB_COLS]);
+  bool isInSight(Boid);
   Vecteur boundingPosition();
   Vecteur cohesion(list<Boid>&);
   Vecteur alignement(list<Boid>&);

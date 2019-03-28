@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include "BoidSimulator.h"
-#include "Boids.h"
 
 BoidSimulator::BoidSimulator(sf::RenderWindow& wd,Boids& b): window(wd),boids(b){
 }

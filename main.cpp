@@ -1,9 +1,9 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Vecteur.h"
-#include "Boid.h"
-#include "Boids.h"
 #include "BoidSimulator.h"
+// #include "Vecteur.h"
+// #include "Boid.h"
+// #include "Boids.h"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ int main(int argc, char const *argv[]) {
   windowSimu.setVerticalSyncEnabled(true); // un appel suffit, après la création de la fenêtre
   // windowSimu.setFramerateLimit(30); // call it once, after creating the window
   // Boid b = Boid(Vecteur(0,0),Vecteur(1,1)); // Test uniquement -> a placer dans Boid Simulator //DEBUG
-  Boids listBoid = Boids(2000);
+  Boids listBoid = Boids(10);
   BoidSimulator gui = BoidSimulator(windowSimu,listBoid);
 
   while (windowSimu.isOpen()){

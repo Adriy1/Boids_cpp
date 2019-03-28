@@ -5,15 +5,16 @@
 #include <iostream>
 #include <list>
 #include <SFML/Graphics.hpp>
-// #include "BoidSimulator.h" //Pourquoi la classe Boid doit etre au courant de la simulation ??
+// #include "BoidSimulator.h" //Pourquoi la classe Boids doit etre au courant de la simulation ??
 
 class Boids {
 protected:
   /* data */
   // list<Boid> listeBoid; // OLD WAY
-  // Grid<list<Boid>> grid;// trouver une solution pour floor + global const TODO
+  // trouver une solution pour taille de la grille  + global const TODO
+  list<Boid>grid[NB_ROWS][NB_COLS];
+
 public:
-  list<Boid>grid[18][10] ;
   Boids (int nbBoid);
   virtual ~Boids ();
   // list<Boid>[][] getGrid();
