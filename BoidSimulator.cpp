@@ -1,14 +1,17 @@
 #include <SFML/Graphics.hpp>
 #include "BoidSimulator.h"
-#include "Boids.h"
+
+int BoidSimulator::LOOP_COUNTER =0;
 
 BoidSimulator::BoidSimulator(sf::RenderWindow& wd,Boids& b): window(wd),boids(b){
 }
 
-BoidSimulator::~BoidSimulator(){}
+BoidSimulator::~BoidSimulator(){
+}
 
 void BoidSimulator::next(){
   boids.nextBoids();
+  // BoidSimulator::LOOP_COUNTER++;
 }
 
 void BoidSimulator::affiche(){

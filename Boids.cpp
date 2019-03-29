@@ -24,10 +24,9 @@ Boids::~Boids(){}
 
 void Boids::nextBoids(){
 
-  list<Boid>::iterator it;
   for (int i=0; i<NB_ROWS;i++){
     for(int j=0; j<NB_COLS;j++){
-      for(it = grid[i][j].begin();it != grid[i][j].end();){
+      for(list<Boid>::iterator it = grid[i][j].begin();it != grid[i][j].end();){
         it->nextBoid(grid);
         int new_X = int(it->getPosition().getX()/SIZE_LEAF);
         int new_Y = int(it->getPosition().getY()/SIZE_LEAF);
@@ -53,6 +52,7 @@ void Boids::addGrid(int x,int y, Boid b){
 sf::VertexArray Boids::afficheBoids(){
   sf::VertexArray listTriangleBoids = sf::VertexArray(sf::Triangles);
   list<Boid>::iterator it;
+  // #pragma omp parallel for private(it)
   for (int i=0; i<NB_ROWS;i++){
     for(int j=0; j<NB_COLS;j++){
       for(it = grid[i][j].begin();it != grid[i][j].end(); ++it){

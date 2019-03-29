@@ -26,6 +26,7 @@ public:
   // Autres méthodes
   void move(double dx,double dy);
   double distance(const Vecteur &V) const;
+  double distanceCompare(const Vecteur &V) const;
   Vecteur milieu(const Vecteur &V) const;
 
   void saisir();
