@@ -54,6 +54,12 @@ double Vecteur::distance(const Vecteur &V) const{
     return sqrt(dx*dx + dy*dy);
 }
 
+double Vecteur::distanceCompare(const Vecteur &V) const{
+    double dx = this->x - V.x;
+    double dy = this->y - V.y;
+    return (dx*dx + dy*dy);
+}
+
 Vecteur Vecteur::milieu(const Vecteur &V) const{
     Vecteur result;
     result.x = (V.x + this->x) / 2;

@@ -23,7 +23,10 @@ Vecteur Boid::getVitesse()const{
 
 void Boid::nextBoid(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]) {
   vitesse += this->boundingPosition();
-  vitesse += this->flock(gridBoid);
+  // std::cout << BoidSimulator::LOOP_COUNTER << '\n';
+  if(BoidSimulator::LOOP_COUNTER%2 !=0){
+    vitesse += this->flock(gridBoid);
+  }
   this->limitVelocity();
   position += vitesse; // TODO check apres l'affectation bonne idee ?
   this->checkPosition();
@@ -66,16 +69,16 @@ Vecteur Boid::flock(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]){
         if(x_grille+i>=0 && y_grille+j>=0 && x_grille+i<NB_ROWS && y_grille+j<NB_COLS){
           for(it = gridBoid[x_grille+i][y_grille+j].begin();it != gridBoid[x_grille+i][y_grille+j].end();++it){
             if (*this != *it){ //on check les autres boids uniquement
-              dist = position.distance(it->position);
-              if(dist<RANGE_BOID && vitesse.getAngle(it->position-position)<90. ){//){this->isInSight(*it)
+              dist = position.distanceCompare(it->position);
+              if(dist<(RANGE_BOID*RANGE_BOID) &&this->isInSight(*it) ){//){this->isInSight(*it)  vitesse.getAngle(it->position-position)<90.
                 // nb++;// DEBUG
                 v_cohesion += (it->position-position); //cohesion
                 v_aligmenent += it->vitesse; // alignement
                 nb_vu++;
               }
-              if(dist <20.){// && (it->position != position)){ //OPTI possible
+              if(dist <400.){// && (it->position != position)){ //OPTI possible
                 Vecteur v = (it->position-position);
-                v *= (20.-dist);
+                v *= (20.-sqrt(dist));
                 v_separation -= v;
                 nb_separation ++;
               }

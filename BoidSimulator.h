@@ -4,9 +4,6 @@
 #include <iostream>
 #include "Boids.h"
 
-
-
-
 class BoidSimulator {
 private:
   /* data */
@@ -22,6 +19,7 @@ public:
   void resize(int width,int height);
   void box();
   void next();
+  static int LOOP_COUNTER;
 };
 
 #endif
