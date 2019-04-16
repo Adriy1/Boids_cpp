@@ -23,7 +23,6 @@ Vecteur Boid::getVitesse()const{
 
 void Boid::nextBoid(list<Boid>(&gridBoid)[NB_ROWS][NB_COLS]) {
   vitesse += this->boundingPosition();
-  // std::cout << BoidSimulator::LOOP_COUNTER << '\n';
   if(BoidSimulator::LOOP_COUNTER%2 !=0){
     vitesse += this->flock(gridBoid);
   }

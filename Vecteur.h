@@ -13,7 +13,6 @@ public:
   Vecteur();
   Vecteur(double x, double y);
 
-  //Accesseurs et mutateurs
   void setX(double x);
   void setY(double y);
   double getX() const;
@@ -23,7 +22,6 @@ public:
   double normCompare() const;
   double getAngle(const Vecteur&) const;
   double scalaire(const Vecteur&) const;
-  // Autres méthodes
   void move(double dx,double dy);
   double distance(const Vecteur &V) const;
   double distanceCompare(const Vecteur &V) const;

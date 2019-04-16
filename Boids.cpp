@@ -18,9 +18,6 @@ Boids::Boids(int nbBoid){
 
 Boids::~Boids(){}
 
-// list<Boid>[][] Boids::getGrid(){
-//   return grid;
-// }
 
 void Boids::nextBoids(){
 
@@ -35,7 +32,7 @@ void Boids::nextBoids(){
           it = grid[i][j].erase(it);//(*it);
           grid[new_X][new_Y].push_back(b);
         }
-        else{ ++it;} //car erase incremente
+        else{ ++it;} //car erase incremente aussi
       }
     }
   }
